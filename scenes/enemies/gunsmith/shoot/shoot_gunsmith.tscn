@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://by42aa7pdbk10"]
+
+[ext_resource type="Script" path="res://scenes/enemies/gunsmith/shoot/shoot_gunsmith.gd" id="1_d5ip7"]
+[ext_resource type="Texture2D" uid="uid://bj18pumptgj1l" path="res://scenes/enemies/gunsmith/shoot/sprites/laser.svg" id="2_3p3vt"]
+[ext_resource type="AudioStream" uid="uid://cxa63prhkubp0" path="res://scenes/enemies/gunsmith/shoot/sound/Shoot.ogg" id="3_ha8sn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x63tt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3p3vt")
+}],
+"loop": true,
+"name": &"Laser",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t8pa2"]
+radius = 5.56503
+height = 66.0
+
+[node name="ShootGunsmith" type="Area2D"]
+script = ExtResource("1_d5ip7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(5, 13)
+scale = Vector2(0.126478, 0.0815074)
+sprite_frames = SubResource("SpriteFrames_x63tt")
+animation = &"Laser"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5, 13)
+scale = Vector2(1.43755, 1)
+shape = SubResource("CapsuleShape2D_t8pa2")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(5, 12)
+scale = Vector2(-0.586926, -3.58923)
+
+[node name="SoundShoot" type="AudioStreamPlayer" parent="." groups=["shootGundsmith"]]
+stream = ExtResource("3_ha8sn")
+volume_db = -21.672
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

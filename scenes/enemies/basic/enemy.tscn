@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://utv3iherymmo"]
+
+[ext_resource type="Texture2D" uid="uid://bosvch787myaf" path="res://scenes/enemies/basic/sprites/basic-enemy.png" id="1_a0db2"]
+[ext_resource type="Script" path="res://scenes/enemies/basic/enemy.gd" id="1_mal82"]
+[ext_resource type="PackedScene" uid="uid://dfkbs4b8h5cqr" path="res://scenes/explosion/explosion.tscn" id="2_fjan2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bcijf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_a0db2")
+}],
+"loop": true,
+"name": &"BasicEnemy",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k6n5n"]
+radius = 34.0
+height = 108.0
+
+[node name="Enemy" type="Area2D" groups=["enemy"]]
+script = ExtResource("1_mal82")
+Explosion = ExtResource("2_fjan2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.02656e-06, 1.90735e-06)
+scale = Vector2(0.651786, 0.651786)
+sprite_frames = SubResource("SpriteFrames_bcijf")
+animation = &"BasicEnemy"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("CapsuleShape2D_k6n5n")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="ExplosionSpawn" type="Marker2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

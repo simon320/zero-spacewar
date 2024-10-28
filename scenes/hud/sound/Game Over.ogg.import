@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ddnumhsmmhtt4"
+path="res://.godot/imported/Game Over.ogg-02f50615d8a68835d038d6c6f9dedcc5.oggvorbisstr"
+
+[deps]
+
+source_file="res://scenes/hud/sound/Game Over.ogg"
+dest_files=["res://.godot/imported/Game Over.ogg-02f50615d8a68835d038d6c6f9dedcc5.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

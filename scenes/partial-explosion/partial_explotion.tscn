@@ -1,0 +1,64 @@
+[gd_scene load_steps=12 format=3 uid="uid://bstycy5vme33i"]
+
+[ext_resource type="Script" path="res://scenes/partial-explosion/partial_explotion.gd" id="1_4nsb7"]
+[ext_resource type="AudioStream" uid="uid://1ec6q18qimvs" path="res://scenes/partial-explosion/sound/Explosion.ogg" id="1_eigu4"]
+[ext_resource type="Texture2D" uid="uid://oda8i78p0y4f" path="res://scenes/partial-explosion/sprites/explosion-1.png" id="1_rjguq"]
+[ext_resource type="Texture2D" uid="uid://dw22j0n6jiusl" path="res://scenes/partial-explosion/sprites/explosion-2.png" id="2_726kj"]
+[ext_resource type="Texture2D" uid="uid://cfk5ulp4wh0nu" path="res://scenes/partial-explosion/sprites/explosion-3.png" id="3_incit"]
+[ext_resource type="Texture2D" uid="uid://cthf5lp7aonh0" path="res://scenes/partial-explosion/sprites/explosion-4.png" id="4_c36yf"]
+[ext_resource type="Texture2D" uid="uid://v3yail2jldie" path="res://scenes/partial-explosion/sprites/explosion-5.png" id="5_nmjum"]
+[ext_resource type="Texture2D" uid="uid://drhrrtn8yiylq" path="res://scenes/partial-explosion/sprites/explosion-6.png" id="6_35uxl"]
+[ext_resource type="Texture2D" uid="uid://tmu30jeft0ad" path="res://scenes/partial-explosion/sprites/explosion-7.png" id="7_hgilf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ddfr"]
+atlas = ExtResource("7_hgilf")
+region = Rect2(120, 100, 30, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u1nk6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rjguq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_726kj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_incit")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_c36yf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nmjum")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_35uxl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_hgilf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ddfr")
+}],
+"loop": false,
+"name": &"PartialExplosion",
+"speed": 13.0
+}]
+
+[node name="PartialExplosion" type="Node2D"]
+script = ExtResource("1_4nsb7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -1.00001)
+scale = Vector2(0.492366, 0.493333)
+sprite_frames = SubResource("SpriteFrames_u1nk6")
+animation = &"PartialExplosion"
+frame = 7
+frame_progress = 1.0
+
+[node name="SoundExplosion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_eigu4")
+volume_db = -20.8
+
+[connection signal="finished" from="SoundExplosion" to="." method="_on_sound_explotion_finished"]

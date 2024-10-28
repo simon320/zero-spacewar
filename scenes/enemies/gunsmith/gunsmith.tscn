@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhwaw84opq5v8"]
+
+[ext_resource type="Script" path="res://scenes/enemies/gunsmith/gunsmith.gd" id="1_2o0aq"]
+[ext_resource type="PackedScene" uid="uid://dfkbs4b8h5cqr" path="res://scenes/explosion/explosion.tscn" id="2_lfon0"]
+[ext_resource type="PackedScene" uid="uid://by42aa7pdbk10" path="res://scenes/enemies/gunsmith/shoot/shoot_gunsmith.tscn" id="3_37hh4"]
+[ext_resource type="Texture2D" uid="uid://xdfg65f3vung" path="res://scenes/enemies/gunsmith/shoot/sprites/gunsmith.png" id="4_dny4c"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qhow4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_dny4c")
+}],
+"loop": true,
+"name": &"Gunsmith",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0h8uw"]
+size = Vector2(88, 64)
+
+[node name="Gunsmith" type="Area2D" groups=["gunsmith"]]
+script = ExtResource("1_2o0aq")
+Explosion = ExtResource("2_lfon0")
+GunsmithShoot = ExtResource("3_37hh4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(11.6788, 21.5322)
+scale = Vector2(0.255455, 0.255455)
+sprite_frames = SubResource("SpriteFrames_qhow4")
+animation = &"Gunsmith"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 12)
+shape = SubResource("RectangleShape2D_0h8uw")
+
+[node name="ExplosionSpawn" type="Marker2D" parent="." groups=["gunsmith"]]
+position = Vector2(3, 12)
+
+[node name="ShootSpawn" type="Marker2D" parent="."]
+position = Vector2(1, 40)
+
+[node name="ShootTimer" type="Timer" parent="." groups=["gunsmith"]]
+wait_time = 1.253
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

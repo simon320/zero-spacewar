@@ -1,0 +1,129 @@
+[gd_scene load_steps=17 format=3 uid="uid://cf45sfajus3fb"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_jx2ay"]
+[ext_resource type="Texture2D" uid="uid://5nn21im6nrm4" path="res://scenes/player/sprites/shipUp/shipUp2.png" id="2_f8ks1"]
+[ext_resource type="Texture2D" uid="uid://dof2uagscik0x" path="res://scenes/player/sprites/shipUp/shipSide.png" id="2_ngjnf"]
+[ext_resource type="PackedScene" uid="uid://d222taw540mj4" path="res://scenes/player/shoot/shoot.tscn" id="2_ps34s"]
+[ext_resource type="PackedScene" uid="uid://dfkbs4b8h5cqr" path="res://scenes/explosion/explosion.tscn" id="3_b2my7"]
+[ext_resource type="Texture2D" uid="uid://cpf6j2x8rlicu" path="res://scenes/player/sprites/shipUp/shipUp3.png" id="3_ejjts"]
+[ext_resource type="PackedScene" uid="uid://bstycy5vme33i" path="res://scenes/partial-explosion/partial_explotion.tscn" id="4_4qj5p"]
+[ext_resource type="Texture2D" uid="uid://fgay6tp70s08" path="res://scenes/player/sprites/shipUp/shipUp4.png" id="4_rtqpl"]
+[ext_resource type="Texture2D" uid="uid://dwnu6xwx7cgya" path="res://scenes/player/sprites/aura1.png" id="5_vhtoy"]
+[ext_resource type="Texture2D" uid="uid://ctkxtn0ibqctv" path="res://scenes/player/sprites/shipUp/ship-1svg.svg" id="8_kfex5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jjo7k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ngjnf")
+}],
+"loop": true,
+"name": &"Horizontal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_f8ks1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ejjts")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_rtqpl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ejjts")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_f8ks1")
+}],
+"loop": true,
+"name": &"Vertical",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_kfex5")
+}],
+"loop": true,
+"name": &"Vertical2",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxnrj"]
+atlas = ExtResource("5_vhtoy")
+region = Rect2(0, 0, 236, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uvvp"]
+atlas = ExtResource("5_vhtoy")
+region = Rect2(236, 0, 236, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wsic"]
+atlas = ExtResource("5_vhtoy")
+region = Rect2(472, 0, 236, 240)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_51kry"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxnrj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uvvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wsic")
+}],
+"loop": true,
+"name": &"ForceField",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jxxpt"]
+size = Vector2(28, 11.75)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+position = Vector2(10, 8)
+scale = Vector2(2.65655, 2.59795)
+motion_mode = 1
+script = ExtResource("1_jx2ay")
+Shoot = ExtResource("2_ps34s")
+Explosion = ExtResource("3_b2my7")
+PartialExplosion = ExtResource("4_4qj5p")
+
+[node name="Ship_AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 6
+position = Vector2(-0.750061, 6.7796)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_jjo7k")
+animation = &"Vertical2"
+
+[node name="Aura_AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.698039)
+position = Vector2(-0.750061, 3.7796)
+scale = Vector2(0.26483, 0.26483)
+sprite_frames = SubResource("SpriteFrames_51kry")
+animation = &"ForceField"
+frame_progress = 0.945231
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.750061, 10.6546)
+shape = SubResource("RectangleShape2D_jxxpt")
+
+[node name="ShootSpawn" type="Marker2D" parent="."]
+position = Vector2(-0.752856, 6.92854)
+
+[node name="ShootTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="ExplosionSpawn" type="Marker2D" parent="."]
+position = Vector2(-0.752856, 10.7777)
+
+[node name="PartialExplosionSpawn1" type="Marker2D" parent="."]
+position = Vector2(-12.7986, -0.384919)
+
+[node name="BeDamagedTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="timeout" from="BeDamagedTimer" to="." method="_on_be_damaged_timer_timeout"]

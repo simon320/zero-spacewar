@@ -1,0 +1,63 @@
+[gd_scene load_steps=12 format=3 uid="uid://dfkbs4b8h5cqr"]
+
+[ext_resource type="Script" path="res://scenes/explosion/explosion.gd" id="1_3pf5v"]
+[ext_resource type="Texture2D" uid="uid://idk00spq402o" path="res://scenes/explosion/sprites/explosion-1.png" id="1_kvwve"]
+[ext_resource type="Texture2D" uid="uid://ceog7m5d13a83" path="res://scenes/explosion/sprites/explosion-2.png" id="2_7euco"]
+[ext_resource type="Texture2D" uid="uid://cmb75l7q6w5u" path="res://scenes/explosion/sprites/explosion-3.png" id="3_pd0o8"]
+[ext_resource type="Texture2D" uid="uid://dc5gj0rkg3cf3" path="res://scenes/explosion/sprites/explosion-4.png" id="4_fgf64"]
+[ext_resource type="Texture2D" uid="uid://c1k0fm2pws81f" path="res://scenes/explosion/sprites/explosion-5.png" id="5_6f03l"]
+[ext_resource type="Texture2D" uid="uid://bysh64kdrjf6g" path="res://scenes/explosion/sprites/explosion-6.png" id="6_5rtmt"]
+[ext_resource type="Texture2D" uid="uid://s47t110jyyp4" path="res://scenes/explosion/sprites/explosion-7.png" id="7_ad208"]
+[ext_resource type="AudioStream" uid="uid://lfh8rj7fdkyc" path="res://scenes/explosion/sounds/Explosion.ogg" id="8_h6rev"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tegbk"]
+atlas = ExtResource("7_ad208")
+region = Rect2(120, 100, 30, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_siw1a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_kvwve")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7euco")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pd0o8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fgf64")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6f03l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5rtmt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ad208")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tegbk")
+}],
+"loop": false,
+"name": &"Explosion",
+"speed": 10.0
+}]
+
+[node name="Explosion" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_3pf5v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_siw1a")
+animation = &"Explosion"
+frame = 7
+frame_progress = 1.0
+
+[node name="SoundExplosion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_h6rev")
+volume_db = -20.357
+
+[connection signal="finished" from="SoundExplosion" to="." method="_on_sound_explosion_finished"]
